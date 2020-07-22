@@ -7,6 +7,40 @@
 
 using namespace std;
 
+std::string add(std::string x, std::string y){
+    
+    // pad smaller integer with zeros if necessary
+    if(x.length()>y.length()){
+        y = std::string( x.length()-y.length(),'0').append(y);
+    }else if(x.length()<y.length()){
+        x = std::string(y.length()-x.length(),'0').append(x);
+    }
+    
+    cout << x << "  " << y << endl;
+    std::string sum = "";
+    int carry = 0;
+    
+    cout << x.length() << "  " << y.length() << endl;
+    
+    for(int i=x.length()-1;i>=0;i--){
+        int x_int = x[i] - '0';
+        int y_int = y[i] - '0';
+        int z = x_int + y_int + carry;
+        //int z = atoi(x[i]) + atoi(y[i]) + carry;
+        carry = 0;
+        if(z >= 10){
+            z = z%10;
+            carry = 1;
+        }
+        sum = to_string(z) + sum;
+    }
+    
+    cout << sum << endl;
+    
+    return sum;
+    
+}
+
 std::string multiply(std::string x, std::string y){
     
     cout << "Now to multiply x = " << x << "  and y = "  << y << endl;
@@ -116,6 +150,12 @@ int main(){
     std::cout << "x = 10001,  y = 78976" << endl;
     std::cout << "predicted: " << multiply("10001","78976") << std::endl;
     std::cout << "actual: " << (long long) 10001*78976 << endl;
+    
+    std::cout << "----------" << endl;
+    cout << add("23","478234") <<  "   " << 23+478234 << endl;
+    
+    std::cout << "----------" << endl;
+    cout << add("23978","478234") <<  "   " << 23978+478234 << endl;
     
     return 0;
     
