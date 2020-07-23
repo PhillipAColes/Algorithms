@@ -7,38 +7,64 @@
 
 using namespace std;
 
-std::string add(std::string x, std::string y){
+std::string operator&(std::string x, std::string y){
     
-    // pad smaller integer with zeros if necessary
     if(x.length()>y.length()){
         y = std::string( x.length()-y.length(),'0').append(y);
     }else if(x.length()<y.length()){
         x = std::string(y.length()-x.length(),'0').append(x);
-    }
+    }   
     
-    cout << x << "  " << y << endl;
     std::string sum = "";
-    int carry = 0;
-    
-    cout << x.length() << "  " << y.length() << endl;
+    int carry = 0;    
     
     for(int i=x.length()-1;i>=0;i--){
         int x_int = x[i] - '0';
         int y_int = y[i] - '0';
         int z = x_int + y_int + carry;
-        //int z = atoi(x[i]) + atoi(y[i]) + carry;
         carry = 0;
         if(z >= 10){
             z = z%10;
             carry = 1;
         }
         sum = to_string(z) + sum;
+    }    
+    
+    if(carry==1){
+        return "1" + sum;
+    }else{
+        return sum;
     }
     
-    cout << sum << endl;
+}
+
+std::string add(std::string x, std::string y){
+    
+    cout << "evaluating "  << x << " + " << y << endl;
+    
+    // pad smaller integer with zeros if necessary
+    if(x.length()>y.length()){
+        y = std::string( x.length()-y.length(),'0').append(y);
+    }else if(x.length()<y.length()){
+        x = std::string(y.length()-x.length(),'0').append(x);
+    }   
+    
+    std::string sum = "";
+    int carry = 0;    
+    
+    for(int i=x.length()-1;i>=0;i--){
+        int x_int = x[i] - '0';
+        int y_int = y[i] - '0';
+        int z = x_int + y_int + carry;
+        carry = 0;
+        if(z >= 10){
+            z = z%10;
+            carry = 1;
+        }
+        sum = to_string(z) + sum;
+    }    
     
     return sum;
-    
 }
 
 std::string multiply(std::string x, std::string y){
@@ -84,13 +110,21 @@ std::string multiply(std::string x, std::string y){
     printf(", second term = %lld", stoll(ad)*((long long)pow(10,a_pow)));
     printf(", third term = %lld", stoll(bc)*((long long)pow(10,c_pow)));
     printf(", fourth term = %lld\n",stoll(bd));
-           
-    std::string result = to_string(stoll(ac)*((long long)pow(10,a_pow+c_pow)) + 
+      
+    cout << to_string(stoll(ac)*((long long)pow(10,a_pow+c_pow)) + 
                                    stoll(ad)*((long long)pow(10,a_pow)) + 
                                    stoll(bc)*((long long)pow(10,c_pow)) +
-                                   stoll(bd));
+                                   stoll(bd)) << endl;
+    
+    ac.append(size_t (a_pow+c_pow),'0');
+    ad.append(size_t (a_pow),'0');
+    bc.append(size_t (c_pow),'0');
+    std::cout << ac << "  " << ad << "  " << bc << "  " << bd << endl;
+    
+    std::string result = ac & ad & bc & bd;
         
     cout << "returning result: " << result << endl;
+
     if(stoll(result) != stoll(x)*stoll(y)){
         cout << "uh oh... " << " true value is " << stoll(x)*stoll(y) << endl;
         exit(0);
@@ -120,6 +154,10 @@ int main(){
 
     x = strtoull(x_str.c_str(), nullptr, 0);
     if (x == ULLONG_MAX && errno == ERANGE) { std::cout << "shit son" << endl;}
+    
+    std::string s1 = "93600";
+    std::string s2 = "11200";
+    std:: cout << (s1 & s2) << std::endl;
     
     std::cout << "----------" << endl;
     std::cout << "x = 321,  y = 78" << endl;
