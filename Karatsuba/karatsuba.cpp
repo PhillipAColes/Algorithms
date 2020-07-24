@@ -7,7 +7,7 @@
 
 using namespace std;
 
-std::string operator&(std::string x, std::string y){
+std::string operator+(std::string x, std::string y){
     
     if(x.length()>y.length()){
         y = std::string( x.length()-y.length(),'0').append(y);
@@ -27,45 +27,17 @@ std::string operator&(std::string x, std::string y){
             z = z%10;
             carry = 1;
         }
-        sum = to_string(z) + sum;
+        sum.insert(0,to_string(z));
     }    
     
     if(carry==1){
-        return "1" + sum;
+        return sum.insert(0,"1");
     }else{
         return sum;
     }
     
 }
 
-std::string add(std::string x, std::string y){
-    
-    cout << "evaluating "  << x << " + " << y << endl;
-    
-    // pad smaller integer with zeros if necessary
-    if(x.length()>y.length()){
-        y = std::string( x.length()-y.length(),'0').append(y);
-    }else if(x.length()<y.length()){
-        x = std::string(y.length()-x.length(),'0').append(x);
-    }   
-    
-    std::string sum = "";
-    int carry = 0;    
-    
-    for(int i=x.length()-1;i>=0;i--){
-        int x_int = x[i] - '0';
-        int y_int = y[i] - '0';
-        int z = x_int + y_int + carry;
-        carry = 0;
-        if(z >= 10){
-            z = z%10;
-            carry = 1;
-        }
-        sum = to_string(z) + sum;
-    }    
-    
-    return sum;
-}
 
 std::string multiply(std::string x, std::string y){
     
@@ -121,15 +93,14 @@ std::string multiply(std::string x, std::string y){
     bc.append(size_t (c_pow),'0');
     std::cout << ac << "  " << ad << "  " << bc << "  " << bd << endl;
     
-    std::string result = ac & ad & bc & bd;
+    std::string result = ac + ad + bc + bd;// look at chaining operators
         
-    cout << "returning result: " << result << endl;
+    cout << "returning result: " << result << "  done." << endl;
 
     if(stoll(result) != stoll(x)*stoll(y)){
         cout << "uh oh... " << " true value is " << stoll(x)*stoll(y) << endl;
         exit(0);
-    }
-    
+    }    
     
     return result;
     
@@ -157,7 +128,7 @@ int main(){
     
     std::string s1 = "93600";
     std::string s2 = "11200";
-    std:: cout << (s1 & s2) << std::endl;
+    std:: cout << (s1 + s2) << std::endl;
     
     std::cout << "----------" << endl;
     std::cout << "x = 321,  y = 78" << endl;
@@ -190,10 +161,19 @@ int main(){
     std::cout << "actual: " << (long long) 10001*78976 << endl;
     
     std::cout << "----------" << endl;
-    cout << add("23","478234") <<  "   " << 23+478234 << endl;
+    std::cout << "x = 12345678901234567890,  y = 98765432109876543210" << endl;
+    std::cout << "predicted: " << multiply("12345678901234567890","98765432109876543210") << std::endl;
+    std::cout << "actual: " << "1219326311 37021795223746380111 1263526900" << endl;
     
     std::cout << "----------" << endl;
-    cout << add("23978","478234") <<  "   " << 23978+478234 << endl;
+    std::string s3 = "23";
+    std::string s4 = "478234";
+    cout << (s3 + s4) <<  "   " << 23+478234 << endl;
+    
+    std::cout << "----------" << endl;
+    std::string s5 = "23978";
+    std::string s6 = "478234";
+    cout << (s5 + s6) <<  "   " << 23978+478234 << endl;
     
     return 0;
     
