@@ -16,9 +16,9 @@ std::string operator+(std::string x, std::string y){
     int carry = 0;    
     
     for(int i=x.length()-1;i>=0;i--){
-        long long int x_int = x[i] - '0';
-        long long int y_int = y[i] - '0';
-        long long int z = x_int + y_int + carry;
+        int x_int = x[i] - '0';
+        int y_int = y[i] - '0';
+        int z = x_int + y_int + carry;
         carry = 0;
         if(z >= 10){
             z = z%10;
@@ -39,14 +39,14 @@ std::string operator+(std::string x, std::string y){
 std::string multiply(std::string x, std::string y){
     
     if(x.length()<=2 && y.length()<=2){
-        long long xy = stoll(x) * stoll(y);
+        int xy = stoll(x) * stoll(y);
         return std::to_string(xy);
     }
     
-    long long int n = x.length();
-    long long int m = y.length();
-    long long int a_pow = n/2+(n%2);
-    long long int c_pow = m/2+(m%2);
+    int n = x.length();
+    int m = y.length();
+    long a_pow = n/2+(n%2);
+    long c_pow = m/2+(m%2);
 
     // Splitting our string representation of the integer
     std::string a = x.substr(0,n/2);
@@ -83,6 +83,9 @@ void tests(){
     if( multiply("987654321","789012345") == "779271451861592745")pass++; total++;
     if( multiply("400040093432542342","400040093432542342") == "160032076353517206627328489622844964" )pass++; total++;
     if( multiply("12345678901234567890","98765432109876543210") == "1219326311370217952237463801111263526900" )pass++; total++;
+    if( multiply("3141592653589793238462643383279502884197169399375105820974944592",
+                 "2718281828459045235360287471352662497757247093699959574966967627") == 
+                 "8539734222673567065463550869546574495034888535765114961879601127067743044893204848617875072216249073013374895871952806582723184" )pass++; total++;
     
     cout << pass << "/" << total << "  test cases passed" << endl;   
     
