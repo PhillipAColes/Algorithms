@@ -2,7 +2,7 @@ goal:	karatsuba.exe
 
 GCC = g++
 
-CCFLAGS = -fbounds-check -Wall -O2
+CCFLAGS = -fbounds-check -fstack-check -Wall -O2
 
 OBJ = karatsuba.o
 
