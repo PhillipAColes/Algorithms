@@ -38,7 +38,6 @@ std::vector<int> merge(std::vector<int> left,std::vector<int> right){
         if(j==right.size()){
             for(int b=i;b<left.size();b++){
                 merged.push_back(left[b]);
-                inversions++;
             }
             break;
         }
@@ -50,7 +49,7 @@ std::vector<int> merge(std::vector<int> left,std::vector<int> right){
         }else{
             merged.push_back(right[j]);
             // counting the number of inversions in our array
-            inversions++;
+            inversions = inversions + (left.size()-i);
             j++;
         }
         k++;
@@ -68,7 +67,7 @@ std::vector<int> sort(std::vector<int> vec){
     std::vector<int> right = slice(vec,length/2,length-1);
     
     // base case where left and right contain max one element each
-    if(length<3){
+    if(length<=2){
         std::vector<int> sorted = merge(left,right);
         return sorted;
     }
@@ -84,8 +83,8 @@ std::vector<int> sort(std::vector<int> vec){
 
 int main(){
    
-    std::vector<int> vec = {1,7,7,3,1,4,2,0,3,6,5,7,8,32,5,4,6,6};
-    //std::vector<int> vec = {1,3,5,2,4,6};
+    //std::vector<int> vec = {8,7,6,5,4,3,2,1};
+    std::vector<int> vec = {2,3,9,6,7,4,8,1,5};
     
     std::vector<int> v_sorted = sort(vec);
     
