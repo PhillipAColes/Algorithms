@@ -34,27 +34,37 @@ void dijkstra(vertex *V, int num_vertices){
     std::vector<vertex> X = {V[0]};
 
     while(X.size() < num_vertices){
-       
-        vertex next;
+        // vertex in our visited set
         vertex current;
+        // vertex not in our visited set
+        vertex next;
         int edge_len;
         int greedy = lrg;
+        // iterate through all vertices in our visited set
         for(auto vert : X){           
+            // iterate through all vertices adjacent to our visted vertices
             for(auto adj : vert.adjacent_vert){
-                if(V[adj.first->idex].visited)continue;   
+                // it we've already visited the adjacent vertex then skip the rest
+                if(V[adj.first->idex].visited)continue;
+                // Dijkstra's greedy criterion
                 if(vert.path_length + adj.second < greedy){
                     greedy = vert.path_length + adj.second;
+                    // the already visited vertex that connects to the unexplored vertex
                     current = vert;
+                    // the next vertex to be added to our visited set
                     next = *(adj.first);
                     edge_len = adj.second;
                 }
             }
         }
-        // in our graph, mark the new vertex as having been visited
+        // in our graph, mark the next vertex as having been visited
         V[next.idex].visited = true;
-        next.path_length = current.path_length + edge_len;
+        // calculate the path length to to the next vertex
+        next.path_length = current.path_length + edge_len;    
+        // path to next vertex
         next.path = current.path;
         next.path.push_back(current.idex);
+        // finally add the next vertex to our set of visited vertices, X
         X.push_back(next);
         
     }
